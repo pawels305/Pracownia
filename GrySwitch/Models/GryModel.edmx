@@ -1,0 +1,201 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="ProjektModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Gatunki">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Gatunek" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Gry">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Tytuł" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Cena" Type="int" />
+          <Property Name="IdGatunku" Type="int" Nullable="false" />
+          <Property Name="IdNagród" Type="int" />
+          <Property Name="DataWydania" Type="date" />
+        </EntityType>
+        <EntityType Name="Nagrody">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NazwaNagrody" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Prestiż" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Gry_ToTable">
+          <End Role="Nagrody" Type="Self.Nagrody" Multiplicity="0..1" />
+          <End Role="Gry" Type="Self.Gry" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Nagrody">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Gry">
+              <PropertyRef Name="IdNagród" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Gry_ToTable_1">
+          <End Role="Gatunki" Type="Self.Gatunki" Multiplicity="1" />
+          <End Role="Gry" Type="Self.Gry" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gatunki">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Gry">
+              <PropertyRef Name="IdGatunku" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ProjektModelStoreContainer">
+          <EntitySet Name="Gatunki" EntityType="Self.Gatunki" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Gry" EntityType="Self.Gry" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Nagrody" EntityType="Self.Nagrody" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Gry_ToTable" Association="Self.FK_Gry_ToTable">
+            <End Role="Nagrody" EntitySet="Nagrody" />
+            <End Role="Gry" EntitySet="Gry" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Gry_ToTable_1" Association="Self.FK_Gry_ToTable_1">
+            <End Role="Gatunki" EntitySet="Gatunki" />
+            <End Role="Gry" EntitySet="Gry" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ProjektModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Gatunki">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Gatunek" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Gry" Relationship="Self.FK_Gry_ToTable_1" FromRole="Gatunki" ToRole="Gry" />
+        </EntityType>
+        <EntityType Name="Gry">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Tytuł" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Cena" Type="Int32" />
+          <Property Name="IdGatunku" Type="Int32" Nullable="false" />
+          <Property Name="IdNagród" Type="Int32" />
+          <Property Name="DataWydania" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Gatunki" Relationship="Self.FK_Gry_ToTable_1" FromRole="Gry" ToRole="Gatunki" />
+          <NavigationProperty Name="Nagrody" Relationship="Self.FK_Gry_ToTable" FromRole="Gry" ToRole="Nagrody" />
+        </EntityType>
+        <EntityType Name="Nagrody">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NazwaNagrody" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Prestiż" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Gry" Relationship="Self.FK_Gry_ToTable" FromRole="Nagrody" ToRole="Gry" />
+        </EntityType>
+        <Association Name="FK_Gry_ToTable_1">
+          <End Role="Gatunki" Type="Self.Gatunki" Multiplicity="1" />
+          <End Role="Gry" Type="Self.Gry" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gatunki">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Gry">
+              <PropertyRef Name="IdGatunku" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Gry_ToTable">
+          <End Role="Nagrody" Type="Self.Nagrody" Multiplicity="0..1" />
+          <End Role="Gry" Type="Self.Gry" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Nagrody">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Gry">
+              <PropertyRef Name="IdNagród" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ProjektEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Gatunki" EntityType="Self.Gatunki" />
+          <EntitySet Name="Gry" EntityType="Self.Gry" />
+          <EntitySet Name="Nagrody" EntityType="Self.Nagrody" />
+          <AssociationSet Name="FK_Gry_ToTable_1" Association="Self.FK_Gry_ToTable_1">
+            <End Role="Gatunki" EntitySet="Gatunki" />
+            <End Role="Gry" EntitySet="Gry" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Gry_ToTable" Association="Self.FK_Gry_ToTable">
+            <End Role="Nagrody" EntitySet="Nagrody" />
+            <End Role="Gry" EntitySet="Gry" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ProjektModelStoreContainer" CdmEntityContainer="ProjektEntities">
+          <EntitySetMapping Name="Gatunki">
+            <EntityTypeMapping TypeName="ProjektModel.Gatunki">
+              <MappingFragment StoreEntitySet="Gatunki">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Gatunek" ColumnName="Gatunek" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Gry">
+            <EntityTypeMapping TypeName="ProjektModel.Gry">
+              <MappingFragment StoreEntitySet="Gry">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Tytuł" ColumnName="Tytuł" />
+                <ScalarProperty Name="Cena" ColumnName="Cena" />
+                <ScalarProperty Name="IdGatunku" ColumnName="IdGatunku" />
+                <ScalarProperty Name="IdNagród" ColumnName="IdNagród" />
+                <ScalarProperty Name="DataWydania" ColumnName="DataWydania" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Nagrody">
+            <EntityTypeMapping TypeName="ProjektModel.Nagrody">
+              <MappingFragment StoreEntitySet="Nagrody">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="NazwaNagrody" ColumnName="NazwaNagrody" />
+                <ScalarProperty Name="Prestiż" ColumnName="Prestiż" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

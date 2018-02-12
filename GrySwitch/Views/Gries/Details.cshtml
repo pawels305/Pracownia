@@ -1,0 +1,58 @@
+﻿@model GrySwitch.Models.Gry
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Gry</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Tytuł)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Tytuł)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cena)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cena)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DataWydania)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DataWydania)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Gatunki.Gatunek)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Gatunki.Gatunek)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Nagrody.NazwaNagrody)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nagrody.NazwaNagrody)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
